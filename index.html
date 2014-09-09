@@ -2,30 +2,104 @@
 <html>
 <head>
     <title>ElasticSearch Simple JSON Query UI</title>
+
     <link rel="stylesheet" type="text/css" href="css/jsoneditor.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+
     <script type="text/javascript" src="js/jsoneditor.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 </head>
 <body>
-<div id="jsoneditor"></div>
-<div id="query-result">test</div>
-<div class="clear"></div>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand">ElasticSearch Simple JSON Query UI</a>
+        </div>
+        <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" id="es-host" placeholder="Query host"
+                   style="background-image: none; background-position: 0% 0%; background-repeat: repeat;">
+        </form>
+    </div>
+</div>
+
+<div class="page-header"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div id="query">
+                <div class="row title-row">
+                    <div class="col-lg-3"><h2>Query</h2></div>
+                    <div class="col-lg-9">
+                        <a href="#" id="run-query" class="btn btn-success btn-sm">Run</a> 
+                        <a href="#" id="save-query" class="btn btn-default btn-sm">Save</a>
+                    </div>
+                </div>
+
+                <div id="query-editor"></div>
+                <div class="text-center">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div id="query-result">
+                <div class="row title-row">
+                    <div class="col-lg-12"><h2>Result</h2></div>
+                </div>
+
+                <div id="query-result-content"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
-    // create the editor
-    var container = document.getElementById("jsoneditor");
-    var editor = new JSONEditor(container);
+    (function ($) {
+        // Replace with your ES host
+        var queryUrl = 'http://eshost:9200';
 
-    // set json
-    var json = {
-        "Array": [1, 2, 3],
-        "Boolean": true,
-        "Null": null,
-        "Number": 123,
-        "Object": {"a": "b", "c": "d"},
-        "String": "Hello World"
-    };
-    editor.set(json);
+        var $esHostInput = $("#es-host");
+        $esHostInput.val(queryUrl);
+
+        var queryContainer = document.getElementById("query-editor");
+        var queryEditor = new JSONEditor(queryContainer);
+
+        // Sample JSON
+        var json = {
+            "query": {
+                "match": {
+                    "_all": "hello"
+                }
+            }
+        };
+
+        queryEditor.set(json);
+        queryEditor.expandAll();
+
+        var resultContainer = document.getElementById("query-result-content");
+        var resultEditor = new JSONEditor(resultContainer, {
+            mode: 'view'
+        });
+
+        $("#run-query").on('click', function () {
+            $.ajax($esHostInput.val() + '/_search', {
+                data: JSON.stringify(queryEditor.get()),
+                processData: false,
+                type: 'POST',
+                success: function (result) {
+                    resultEditor.set(result);
+                },
+                error: function (error) {
+                    resultEditor.set(error);
+                },
+                complete: function () {
+                    resultEditor.expandAll();
+                }
+            });
+        });
+    })(jQuery);
 </script>
 </body>
 </html>

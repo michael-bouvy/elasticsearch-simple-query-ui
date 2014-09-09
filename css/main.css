@@ -1,15 +1,18 @@
-#jsoneditor {
-    width: 48%;
-    float: left;
-    padding: 1%;
+#query h2,
+#query-result h2 {
+  margin:0;
 }
 
-#query-result {
-    width: 48%;
-    float: left;
-    padding: 1%;
+#query .title-row,
+#query-result .title-row {
+  margin-bottom: 15px;
+  height: 35px;
 }
 
-.clear {
-    clear: both;
+#query .title-row .btn {
+  margin-top: 5px;
+}
+
+#es-host {
+  width: 400px;
 }
