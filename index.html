@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ElasticSearch Simple JSON Query UI</title>
+    <link rel="stylesheet" type="text/css" href="css/jsoneditor.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="js/jsoneditor.min.js"></script>
+</head>
+<body>
+<div id="jsoneditor"></div>
+<div id="query-result">test</div>
+<div class="clear"></div>
+
+<script type="text/javascript">
+    // create the editor
+    var container = document.getElementById("jsoneditor");
+    var editor = new JSONEditor(container);
+
+    // set json
+    var json = {
+        "Array": [1, 2, 3],
+        "Boolean": true,
+        "Null": null,
+        "Number": 123,
+        "Object": {"a": "b", "c": "d"},
+        "String": "Hello World"
+    };
+    editor.set(json);
+</script>
+</body>
+</html>
