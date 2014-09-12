@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>ElasticSearch Simple JSON Query UI</title>
+
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
     <link rel="stylesheet" type="text/css" href="css/jsoneditor.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -29,8 +31,11 @@
                 <div class="row title-row">
                     <div class="col-lg-3"><h2>Query</h2></div>
                     <div class="col-lg-9">
-                        <a href="#" id="run-query" class="btn btn-success btn-sm">Run</a> 
-                        <a href="#" id="save-query" class="btn btn-default btn-sm">Save</a>
+                        <div class="form-group form-group-sm">
+                            <div class="form-inline">
+                                <a href="#" id="run-query" class="btn btn-success btn-sm">Run</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -50,6 +55,7 @@
 </div>
 
 <script type="text/javascript" src="js/jsoneditor.min.js"></script>
+<script type="text/javascript" src="js/ace/ace.js"></script>
 <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 

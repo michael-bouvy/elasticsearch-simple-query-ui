@@ -9,10 +9,15 @@
   height: 35px;
 }
 
-#query .title-row .btn {
+#query .title-row a,
+#query .title-row input {
   margin-top: 5px;
 }
 
 #es-host {
   width: 400px;
+}
+
+#query-editor {
+    height: 500px;
 }

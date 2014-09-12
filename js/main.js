@@ -1,16 +1,33 @@
 (function ($) {
     "use strict";
-    
-    // Replace with your ES host
-    var queryUrl = 'http://eshost:9200';
 
     var $esHostInput = $("#es-host");
-    $esHostInput.val(queryUrl);
+    var queryHostKey = 'es.query-host';
 
+    // Replace with your ES host
+    var queryHost = 'http://myhost:9200';
+
+    if (localStorage) {
+        var savedQueryHost = localStorage.getItem(queryHostKey);
+        if (savedQueryHost) {
+            queryHost = savedQueryHost;
+        }
+
+        $esHostInput.on('change keyup', function () {
+            localStorage.setItem(queryHostKey, $(this).val());
+        });
+    }
+
+    $esHostInput.val(queryHost);
+
+    // Query editor
     var queryContainer = document.getElementById("query-editor");
-    var queryEditor = new JSONEditor(queryContainer);
+    var queryEditor = new JSONEditor(queryContainer, {
+        mode: 'code',
+        modes: ['code', 'tree']
+    });
 
-    // Sample JSON
+    // Sample JSON for query editor
     var json = {
         "query": {
             "match": {
@@ -20,13 +37,14 @@
     };
 
     queryEditor.set(json);
-    queryEditor.expandAll();
 
+    // Result editor
     var resultContainer = document.getElementById("query-result-content");
     var resultEditor = new JSONEditor(resultContainer, {
         mode: 'view'
     });
 
+    // Handle query
     $("#run-query").on('click', function () {
         $.ajax($esHostInput.val() + '/_search', {
             data: JSON.stringify(queryEditor.get()),
