@@ -16,6 +16,12 @@
             <a href="#" class="navbar-brand">ElasticSearch Simple JSON Query UI</a>
         </div>
         <form class="navbar-form navbar-right">
+            <select name="method" class="form-control" id="es-method">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+            </select>
             <input type="text" class="form-control" id="es-host" placeholder="Query host"
                    style="background-image: none; background-position: 0% 0%; background-repeat: repeat;">
         </form>

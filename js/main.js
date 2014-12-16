@@ -2,6 +2,7 @@
     "use strict";
 
     var $esHostInput = $("#es-host");
+    var $esMethodInput = $("#es-method");
     var queryHostKey = 'es.query-host';
 
     // Replace with your ES host
@@ -45,11 +46,18 @@
     });
 
     // Handle query
+    var esHost = '';
+    var esMethod = '';
     $("#run-query").on('click', function () {
-        $.ajax($esHostInput.val() + '/_search', {
+        esHost = $esHostInput.val();
+        esMethod = $esMethodInput.val();
+        if (esHost.indexOf('/_') == -1 && esMethod == 'GET') {
+            esHost += '/_search'
+        }
+        $.ajax(esHost, {
             data: JSON.stringify(queryEditor.get()),
             processData: false,
-            type: 'POST',
+            type: esMethod,
             success: function (result) {
                 resultEditor.set(result);
             },
