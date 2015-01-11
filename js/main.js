@@ -4,9 +4,11 @@
     var $esHostInput = $("#es-host");
     var $esMethodInput = $("#es-method");
     var queryHostKey = 'es.query-host';
+    var queryMethodKey = 'es.query-method';
 
     // Replace with your ES host
-    var queryHost = 'http://myhost:9200';
+    var queryHost = 'http://localhost:9200';
+    var queryMethod = 'GET';
 
     if (localStorage) {
         var savedQueryHost = localStorage.getItem(queryHostKey);
@@ -17,9 +19,19 @@
         $esHostInput.on('change keyup', function () {
             localStorage.setItem(queryHostKey, $(this).val());
         });
+
+        var savedQueryMethod = localStorage.getItem(queryMethodKey);
+        if (savedQueryMethod) {
+            queryMethod = savedQueryMethod;
+        }
+
+        $esMethodInput.on('change keyup', function () {
+            localStorage.setItem(queryMethodKey, $(this).val());
+        });
     }
 
     $esHostInput.val(queryHost);
+    $esMethodInput.find("option[value=" + queryMethod + "]").attr('selected', 'selected');
 
     // Query editor
     var queryContainer = document.getElementById("query-editor");
